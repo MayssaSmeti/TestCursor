@@ -1,0 +1,139 @@
+<div class="dashboard-container">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="section-title">Bienvenue sur DataSpeak</h1>
+      <p class="lead">
+        Transformez votre voix en insights et visualisations de données en quelques étapes simples.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-microphone fa-3x text-primary"></i>
+          </div>
+          <h5 class="card-title">Enregistrement Audio</h5>
+          <p class="card-text">Enregistrez votre voix pour poser des questions ou donner des instructions.</p>
+          <button class="btn btn-primary mt-2" (click)="navigateTo('/record')">
+            <i class="fas fa-play me-2"></i>Commencer
+          </button>
+        </div>
+        <div class="card-footer text-center" *ngIf="hasTranscription">
+          <span class="badge bg-success"><i class="fas fa-check me-1"></i>Complété</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-file-alt fa-3x text-primary"></i>
+          </div>
+          <h5 class="card-title">Transcription</h5>
+          <p class="card-text">Visualisez et modifiez la transcription de votre enregistrement audio.</p>
+          <button class="btn btn-primary mt-2" [disabled]="!hasTranscription" (click)="navigateTo('/transcription')">
+            <i class="fas fa-file-alt me-2"></i>Voir
+          </button>
+        </div>
+        <div class="card-footer text-center" *ngIf="hasTranscription">
+          <span class="badge bg-success"><i class="fas fa-check me-1"></i>Disponible</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-file-upload fa-3x text-primary"></i>
+          </div>
+          <h5 class="card-title">Import de Données</h5>
+          <p class="card-text">Importez vos fichiers de données (Excel, CSV, PDF) pour analyse.</p>
+          <button class="btn btn-primary mt-2" (click)="navigateTo('/data-upload')">
+            <i class="fas fa-upload me-2"></i>Importer
+          </button>
+        </div>
+        <div class="card-footer text-center" *ngIf="hasDataFile">
+          <span class="badge bg-success"><i class="fas fa-check me-1"></i>Fichier importé</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <div class="card-body text-center">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-chart-bar fa-3x text-primary"></i>
+          </div>
+          <h5 class="card-title">Visualisations</h5>
+          <p class="card-text">Explorez les visualisations générées à partir de vos données et instructions.</p>
+          <button class="btn btn-primary mt-2" [disabled]="!hasDataFile" (click)="navigateTo('/visualization')">
+            <i class="fas fa-chart-line me-2"></i>Explorer
+          </button>
+        </div>
+        <div class="card-footer text-center" *ngIf="hasVisualizations">
+          <span class="badge bg-success"><i class="fas fa-check me-1"></i>Disponible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Statut du Projet</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="status-item">
+                <i class="fas fa-microphone" [class.text-success]="hasTranscription" [class.text-secondary]="!hasTranscription"></i>
+                <span>Enregistrement Audio</span>
+                <span class="status-badge" [class.bg-success]="hasTranscription" [class.bg-secondary]="!hasTranscription">
+                  {{ hasTranscription ? 'Complété' : 'En attente' }}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="status-item">
+                <i class="fas fa-file-upload" [class.text-success]="hasDataFile" [class.text-secondary]="!hasDataFile"></i>
+                <span>Fichier de Données</span>
+                <span class="status-badge" [class.bg-success]="hasDataFile" [class.bg-secondary]="!hasDataFile">
+                  {{ hasDataFile ? 'Importé' : 'En attente' }}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="status-item">
+                <i class="fas fa-chart-bar" [class.text-success]="hasVisualizations" [class.text-secondary]="!hasVisualizations"></i>
+                <span>Visualisations</span>
+                <span class="status-badge" [class.bg-success]="hasVisualizations" [class.bg-secondary]="!hasVisualizations">
+                  {{ hasVisualizations ? 'Générées' : 'En attente' }}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="status-item">
+                <i class="fas fa-lightbulb" [class.text-success]="hasInsights" [class.text-secondary]="!hasInsights"></i>
+                <span>Insights</span>
+                <span class="status-badge" [class.bg-success]="hasInsights" [class.bg-secondary]="!hasInsights">
+                  {{ hasInsights ? 'Disponibles' : 'En attente' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-outline-danger" (click)="resetAll()">
+            <i class="fas fa-trash me-2"></i>Réinitialiser toutes les données
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

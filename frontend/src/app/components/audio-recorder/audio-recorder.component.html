@@ -1,0 +1,106 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-microphone me-2"></i>Enregistrement Audio
+          </h4>
+        </div>
+        <div class="card-body">
+          <!-- Affichage des erreurs -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Interface d'enregistrement -->
+          <div class="text-center mb-4">
+            <div class="recorder-container">
+              <div class="recorder-status" [ngClass]="{'recording': isRecording}">
+                <i class="fas" [ngClass]="isRecording ? 'fa-stop' : 'fa-microphone'"></i>
+              </div>
+              <div class="timer" *ngIf="isRecording || recordingTime > 0">
+                {{ formatTime(recordingTime) }}
+              </div>
+            </div>
+
+            <div class="btn-group mt-3">
+              <button *ngIf="!isRecording" class="btn btn-primary btn-lg" (click)="startRecording()" [disabled]="isUploading || isTranscribing || isAnalyzing">
+                <i class="fas fa-microphone me-2"></i>Commencer l'enregistrement
+              </button>
+              <button *ngIf="isRecording" class="btn btn-danger btn-lg" (click)="stopRecording()">
+                <i class="fas fa-stop me-2"></i>Arrêter l'enregistrement
+              </button>
+              <button *ngIf="audioUrl && !isRecording" class="btn btn-outline-secondary btn-lg" (click)="clearRecording()" [disabled]="isUploading || isTranscribing || isAnalyzing">
+                <i class="fas fa-trash me-2"></i>Effacer
+              </button>
+            </div>
+          </div>
+
+          <!-- Lecteur audio -->
+          <div *ngIf="audioUrl" class="audio-player mt-4">
+            <h5>Prévisualisation de l'enregistrement</h5>
+            <audio controls [src]="audioUrl" class="w-100"></audio>
+            
+            <div class="d-grid gap-2 mt-3">
+              <button class="btn btn-success" (click)="uploadAndTranscribe()" [disabled]="isUploading || isTranscribing || isAnalyzing">
+                <i class="fas fa-upload me-2"></i>Télécharger et transcrire
+              </button>
+            </div>
+          </div>
+
+          <!-- Indicateurs de progression -->
+          <div class="progress-indicators mt-4" *ngIf="isUploading || isTranscribing || isAnalyzing">
+            <div class="progress mb-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                   [ngClass]="{
+                     'bg-primary': isUploading,
+                     'bg-info': isTranscribing,
+                     'bg-success': isAnalyzing
+                   }"
+                   [ngStyle]="{'width': '100%'}"></div>
+            </div>
+            <div class="text-center">
+              <span *ngIf="isUploading">
+                <i class="fas fa-spinner fa-spin me-2"></i>Téléchargement de l'audio...
+              </span>
+              <span *ngIf="isTranscribing">
+                <i class="fas fa-spinner fa-spin me-2"></i>Transcription en cours...
+              </span>
+              <span *ngIf="isAnalyzing">
+                <i class="fas fa-spinner fa-spin me-2"></i>Analyse du texte...
+              </span>
+            </div>
+          </div>
+
+          <!-- Résultats -->
+          <div class="results mt-4" *ngIf="transcriptionText">
+            <div class="card mb-3">
+              <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Transcription</h5>
+              </div>
+              <div class="card-body">
+                <p>{{ transcriptionText }}</p>
+              </div>
+            </div>
+
+            <div class="card mb-3" *ngIf="analysisText">
+              <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Analyse</h5>
+              </div>
+              <div class="card-body">
+                <p>{{ analysisText }}</p>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary" (click)="navigateToTranscription()">
+                <i class="fas fa-arrow-right me-2"></i>Continuer vers la transcription
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

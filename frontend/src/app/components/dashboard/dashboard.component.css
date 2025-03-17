@@ -1,0 +1,59 @@
+.dashboard-container {
+  padding: 20px 0;
+}
+
+.feature-icon {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+}
+
+.status-item i {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  width: 30px;
+  text-align: center;
+}
+
+.status-item span {
+  flex: 1;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.section-title {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.lead {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+} 
